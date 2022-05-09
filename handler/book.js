@@ -1,4 +1,6 @@
 const queryBook = require("../repository/book");
+const xlsx = require("xlsx");
+const postExcel = require("../service/book");
 
 const handleGetBooks = (req, res) => {
   try {
@@ -25,6 +27,19 @@ const handlePostBooks = (req, res) => {
 
   try {
     queryBook.queryPostBook(res, body);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send();
+  }
+};
+
+const handlePostBooksExcel = (req, res) => {
+  const buf = req.file.buffer;
+  const workbook = xlsx.read(buf).Sheets.Sheet1;
+
+  try {
+    postExcel(res, workbook)
+    return res.status(200).json("Success");
   } catch (err) {
     console.log(err);
     return res.status(500).send();
@@ -58,6 +73,7 @@ module.exports = {
   handleGetBooks,
   handleGetBookByNo,
   handlePostBooks,
+  handlePostBooksExcel,
   handleUpdateBook,
   handleDeleteBook,
 };
