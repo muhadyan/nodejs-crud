@@ -38,6 +38,19 @@ function queryPostBook(res, body) {
   );
 }
 
+function queryPostExcel(res, no, book, author) {
+  connection.query(
+    "INSERT INTO books (no, book, author) VALUES (?, ?, ?)",
+    [no, book, author],
+    (err, results, fields) => {
+      if (err) {
+        console.log("Error while inserting a book into database", err);
+        return res.status(400).send();
+      }
+    }
+  );
+}
+
 function queryUpdateBook(res, no, book) {
   connection.query(
     "UPDATE books SET book = ? WHERE no = ?",
@@ -73,6 +86,7 @@ module.exports = {
   queryGetBooks,
   queryGetBookByNo,
   queryPostBook,
+  queryPostExcel,
   queryUpdateBook,
   queryDeleteBook,
 };
