@@ -1,39 +1,39 @@
-const queryBook = require("../repository/book");
+const repository = require("../repository/book");
 const xlsx = require("xlsx");
 const postExcel = require("../service/book");
 
-const handleGetBooks = (req, res) => {
+const GetBooks = (req, res) => {
   try {
-    queryBook.queryGetBooks(res);
+    repository.queryGetBooks(res);
   } catch (err) {
     console.log(err);
     return res.status(500).send();
   }
 };
 
-const handleGetBookByNo = (req, res) => {
+const GetBookByNo = (req, res) => {
   const no = req.params.no;
 
   try {
-    queryBook.queryGetBookByNo(res, no);
+    repository.queryGetBookByNo(res, no);
   } catch (err) {
     console.log(err);
     return res.status(500).send();
   }
 };
 
-const handlePostBooks = (req, res) => {
+const PostBooks = (req, res) => {
   const body = req.body;
 
   try {
-    queryBook.queryPostBook(res, body);
+    repository.queryPostBook(res, body);
   } catch (err) {
     console.log(err);
     return res.status(500).send();
   }
 };
 
-const handlePostBooksExcel = (req, res) => {
+const PostBooksExcel = (req, res) => {
   const buf = req.file.buffer;
   const workbook = xlsx.read(buf).Sheets.Sheet1;
 
@@ -46,23 +46,23 @@ const handlePostBooksExcel = (req, res) => {
   }
 };
 
-const handleUpdateBook = (req, res) => {
+const UpdateBook = (req, res) => {
   const no = req.params.no;
   const book = req.body.book;
 
   try {
-    queryBook.queryUpdateBook(res, no, book);
+    repository.queryUpdateBook(res, no, book);
   } catch (err) {
     console.log(err);
     return res.status(500).send();
   }
 };
 
-const handleDeleteBook = (req, res) => {
+const DeleteBook = (req, res) => {
   const no = req.params.no;
 
   try {
-    queryBook.queryDeleteBook(res, no);
+    repository.queryDeleteBook(res, no);
   } catch (err) {
     console.log(err);
     return res.status(500).send();
@@ -70,10 +70,10 @@ const handleDeleteBook = (req, res) => {
 };
 
 module.exports = {
-  handleGetBooks,
-  handleGetBookByNo,
-  handlePostBooks,
-  handlePostBooksExcel,
-  handleUpdateBook,
-  handleDeleteBook,
+  GetBooks,
+  GetBookByNo,
+  PostBooks,
+  PostBooksExcel,
+  UpdateBook,
+  DeleteBook,
 };
