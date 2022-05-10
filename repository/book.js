@@ -47,7 +47,7 @@ function queryPostExcel(res, resArr) {
         console.log("Error while inserting a book into database", err);
         return res.status(400).send();
       }
-      return res.status(200).json("Success");
+      return res.status(200).json("Number of record inserted: " + results.affectedRows);
     }
   );
 }
