@@ -38,15 +38,16 @@ function queryPostBook(res, body) {
   );
 }
 
-function queryPostExcel(res, no, book, author) {
+function queryPostExcel(res, resArr) {
   connection.query(
-    "INSERT INTO books (no, book, author) VALUES (?, ?, ?)",
-    [no, book, author],
+    "INSERT INTO books (no, book, author) VALUES ?",
+    [resArr],
     (err, results, fields) => {
       if (err) {
         console.log("Error while inserting a book into database", err);
         return res.status(400).send();
       }
+      return res.status(200).json("Success");
     }
   );
 }

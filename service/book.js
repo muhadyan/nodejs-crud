@@ -1,6 +1,7 @@
-const queryBook = require('../repository/book')
+const queryBook = require("../repository/book");
 
 function postExcel(res, workbook) {
+  let resArr = [];
   for (let i = 2; i > 0; i++) {
     A = `A${i}`;
     B = `B${i}`;
@@ -11,9 +12,12 @@ function postExcel(res, workbook) {
     if (no === undefined) {
       break;
     } else {
-      queryBook.queryPostExcel(res, no.v, book.v, author.v);
+      let tempArr = []
+      tempArr.push(no.v, book.v, author.v);
+      resArr.push(tempArr)
     }
   }
+  queryBook.queryPostExcel(res, resArr);
 }
 
-module.exports = postExcel
+module.exports = postExcel;

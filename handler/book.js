@@ -39,7 +39,6 @@ const PostBooksExcel = (req, res) => {
 
   try {
     postExcel(res, workbook)
-    return res.status(200).json("Success");
   } catch (err) {
     console.log(err);
     return res.status(500).send();
