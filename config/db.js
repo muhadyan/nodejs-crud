@@ -1,11 +1,12 @@
 const mysql = require("mysql");
+require("dotenv").config({path: process.cwd()+ '/config/.env'});
 
 const connection = mysql.createConnection({
-  host: "localhost",
-  port: "3306",
-  user: "root",
-  password: "password",
-  database: "excel-read",
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
 });
 
 function dbConnect() {
@@ -22,4 +23,4 @@ function dbConnect() {
 module.exports = {
   connection,
   dbConnect,
-}
+};

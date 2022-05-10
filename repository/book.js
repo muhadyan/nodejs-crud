@@ -1,7 +1,7 @@
-const { connection } = require("../db-config/db");
+const { connection } = require("../config/db");
 
 function queryGetBooks(res) {
-  connection.query("SELECT * FROM books", (err, results, fields) => {
+  connection.query("SELECT * FROM books", (err, results) => {
     if (err) {
       console.log(err);
       return res.status(400).send();
@@ -14,7 +14,7 @@ function queryGetBookByNo(res, no) {
   connection.query(
     "SELECT * FROM books WHERE no = ?",
     [no],
-    (err, results, fields) => {
+    (err, results) => {
       if (err) {
         console.log(err);
         return res.status(400).send();
@@ -28,12 +28,12 @@ function queryPostBook(res, body) {
   connection.query(
     "INSERT INTO books (no, book, author, create_by) VALUES (?, ?, ?, ?)",
     [body.no, body.book, body.author, body.createby],
-    (err, results, fields) => {
+    (err, results) => {
       if (err) {
         console.log("Error while inserting a book into database", err);
         return res.status(400).send();
       }
-      return res.status(200).json(results);
+      return res.status(200).json("Input data success");
     }
   );
 }
@@ -42,7 +42,7 @@ function queryPostExcel(res, resArr) {
   connection.query(
     "INSERT INTO books (no, book, author) VALUES ?",
     [resArr],
-    (err, results, fields) => {
+    (err, results) => {
       if (err) {
         console.log("Error while inserting a book into database", err);
         return res.status(400).send();
@@ -56,7 +56,7 @@ function queryUpdateBook(res, no, book) {
   connection.query(
     "UPDATE books SET book = ? WHERE no = ?",
     [book, no],
-    (err, results, fields) => {
+    (err, results) => {
       if (err) {
         console.log("Error while inserting a book into database", err);
         return res.status(400).send();
@@ -70,7 +70,7 @@ function queryDeleteBook(res, no) {
   connection.query(
     "DELETE FROM books WHERE no = ?",
     [no],
-    (err, results, fields) => {
+    (err, results) => {
       if (err) {
         console.log("Error while inserting a book into database", err);
         return res.status(400).send();

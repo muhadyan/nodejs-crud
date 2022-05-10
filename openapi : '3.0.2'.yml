@@ -1,0 +1,223 @@
+openapi: "3.0.2"
+info:
+  title: Book API
+  description: OpenAPI for Book API
+  version: "1.0.0"
+  license:
+    name: Refactory
+    url: http://refactory.id
+  contact:
+    name: M Adyan Rohutomo
+    email: madyanr@gmail.com
+    url: http://muhadyan.com
+servers:
+  - url: http://{environment}:{port}/{basePath}
+    description: Development server
+    variables:
+      environment:
+        enum:
+          - localhost
+        default: localhost
+      port:
+        enum:
+          - "3000"
+          - "5000"
+        default: "3000"
+      basePath:
+        enum:
+          - api
+        default: api
+paths:
+  /books:
+    get:
+      tags:
+        - Books
+      summary: Get All Books List
+      description: Only will return all existing books
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    "no":
+                      type: integer
+                      description: Book number
+                    book:
+                      type: string
+                      description: Book name
+                    author:
+                      type: string
+                      description: Book author
+                    create_by:
+                      type: string
+                      description: User that created the book list record
+              example:
+                [
+                  {
+                    "no": 1,
+                    "book": "Buku Andi",
+                    "author": "Caca",
+                    "create_by": Adyan
+                  },
+                  {
+                    "no": 2,
+                    "book": "Buku Budi",
+                    "author": "Deni",
+                    "create_by": Adyan
+                  }
+                ]
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          $ref: "#/components/responses/500"
+
+  /book:
+    post:
+      tags:
+        - Books
+      summary: Post New Book List
+      description: Create new existing book
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                "no":
+                  type: integer
+                  minimum: 1
+                book:
+                  type: string
+                  minLength: 1
+                author:
+                  type: string
+                  minLength: 3
+            examples:
+              "Andi":
+                description: Contoh bukunya Andi
+                value:
+                  "no": 1
+                  "book": "Buku Andi"
+                  "author": "Caca"
+              "Budi":
+                description: Contoh bukunya Budi
+                value:
+                  "no": 4
+                  "book": "Buku Budi"
+                  "author": "Deni"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/string:
+              schema:
+                type: string
+              example: Input data success
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          $ref: "#/components/responses/500"
+
+  # /books-excel:
+  #   post:
+  #     summary: Post New Book List With Excel
+  #     description: Create new existing book by uploading an excel file
+  #     requestBody:
+  #       required: true
+  #       content:
+  #         multipart/form-data:
+  #           schema:
+  #             type: object
+  #     responses:
+  #       "200":
+  #         description: OK
+
+  /book/{no}:
+    get:
+      tags:
+        - Books
+      summary: Get Book List By Number
+      description: Only will return one book that have existing number
+      parameters:
+        - $ref: "#/components/parameters/number"
+      responses:
+        "200":
+          description: OK
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          $ref: "#/components/responses/500"
+
+    patch:
+      tags:
+        - Books
+      summary: Update Book Name By Number
+      description: Only will update one book that have existing number
+      parameters:
+        - $ref: "#/components/parameters/number"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                book:
+                  type: string
+                  minLength: 1
+            example: { "book": "Buku Andi" }
+      responses:
+        "200":
+          description: OK
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          $ref: "#/components/responses/500"
+
+    delete:
+      tags:
+        - Books
+      summary: Delete Book List By Number
+      description: Only will delete one book that have existing number
+      parameters:
+        - $ref: "#/components/parameters/number"
+      responses:
+        "200":
+          description: OK
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          $ref: "#/components/responses/500"
+components:
+  parameters:
+    number:
+      name: "no"
+      in: path
+      required: true
+      description: Book number for get book data
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      example: 2
+  responses:
+    "400":
+      description: Bad Request
+      content:
+        application/string:
+          schema:
+            type: string
+          example: Error while inserting a book into database
+    "500":
+      description: Internal Server Error
+      content:
+        application/string:
+          schema:
+            type: string
+          example: Error while processing service

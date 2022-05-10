@@ -1,5 +1,5 @@
 const express = require("express");
-const { dbConnect } = require("./db-config/db");
+const { dbConnect } = require("./config/db");
 const Router = require("./routes/routes");
 const app = express();
 const port = 3000;
