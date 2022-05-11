@@ -1,6 +1,6 @@
 const queryBook = require("../repository/book");
 
-function postExcel(res, workbook) {
+function postExcel(res, workbook, username) {
   let resArr = [];
   for (let i = 2; i > 0; i++) {
     A = `A${i}`;
@@ -13,7 +13,7 @@ function postExcel(res, workbook) {
       break;
     } else {
       let tempArr = []
-      tempArr.push(no.v, book.v, author.v);
+      tempArr.push(no.v, book.v, author.v, username);
       resArr.push(tempArr)
     }
   }
